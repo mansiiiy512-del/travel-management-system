@@ -1,0 +1,1426 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Travel Management System</title>
+
+    <style>
+
+        * {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+            font-family: Arial, sans-serif;
+        }
+
+        body {
+            background-color: #f2f6f9;
+            color: #333;
+        }
+
+        /* ================= LOGIN PAGE ================= */
+
+        #loginPage {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background: linear-gradient(135deg, #1d3557, #457b9d);
+        }
+
+        .login-box {
+            background: white;
+            width: 380px;
+            padding: 35px;
+            border-radius: 15px;
+            text-align: center;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.25);
+        }
+
+        .login-box h1 {
+            color: #1d3557;
+            margin-bottom: 10px;
+        }
+
+        .login-box h2 {
+            margin-bottom: 25px;
+        }
+
+        .login-box input {
+            width: 100%;
+            padding: 13px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 7px;
+        }
+
+        .login-box button {
+            width: 100%;
+            padding: 13px;
+            margin-top: 12px;
+            border: none;
+            border-radius: 7px;
+            cursor: pointer;
+            font-size: 16px;
+        }
+
+        .start-btn {
+            background-color: #1d3557;
+            color: white;
+        }
+
+        .reset-btn {
+            background-color: #ddd;
+        }
+
+        #message {
+            color: red;
+            margin-top: 15px;
+        }
+
+
+        /* ================= HOME PAGE ================= */
+
+        #homePage {
+            display: none;
+        }
+
+        header {
+            background-color: #1d3557;
+            color: white;
+            padding: 20px;
+            text-align: center;
+            position: relative;
+        }
+
+        header h1 {
+            margin-bottom: 8px;
+        }
+
+        .logout {
+            position: absolute;
+            right: 20px;
+            top: 20px;
+            background-color: #e63946;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        .welcome {
+            text-align: center;
+            padding: 30px;
+        }
+
+        .welcome h2 {
+            color: #1d3557;
+            margin-bottom: 10px;
+        }
+
+
+        /* ================= MENU CARDS ================= */
+
+        .menu {
+            width: 90%;
+            margin: auto;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 20px;
+            padding-bottom: 30px;
+        }
+
+        .card {
+            background-color: white;
+            padding: 30px 20px;
+            border-radius: 12px;
+            text-align: center;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+            cursor: pointer;
+            transition: 0.3s;
+        }
+
+        .card:hover {
+            transform: translateY(-5px);
+            background-color: #eaf4f8;
+        }
+
+        .card h3 {
+            color: #1d3557;
+            margin-bottom: 10px;
+        }
+
+
+        /* ================= CONTENT AREA ================= */
+
+        .content-section {
+            display: none;
+            width: 90%;
+            margin: 20px auto;
+            background-color: white;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.15);
+        }
+
+        .content-section h2 {
+            text-align: center;
+            color: #1d3557;
+            margin-bottom: 25px;
+        }
+
+
+        /* ================= PLACE / HOTEL / ADVENTURE CARDS ================= */
+
+        .items {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 20px;
+        }
+
+        .item {
+            padding: 20px;
+            border: 1px solid #ddd;
+            border-radius: 10px;
+            background-color: #f9fbfc;
+        }
+
+        .item h3 {
+            color: #457b9d;
+            margin-bottom: 10px;
+        }
+
+        .item p {
+            line-height: 1.6;
+            margin-bottom: 10px;
+        }
+
+        .detail-btn,
+        .book-btn {
+            background-color: #457b9d;
+            color: white;
+            border: none;
+            padding: 10px 18px;
+            border-radius: 6px;
+            cursor: pointer;
+            margin-top: 8px;
+        }
+
+        .detail-btn:hover,
+        .book-btn:hover {
+            background-color: #1d3557;
+        }
+
+
+        /* ================= DETAILS ================= */
+
+        .details {
+            display: none;
+            margin-top: 20px;
+            padding: 20px;
+            background-color: #eef6f8;
+            border-radius: 10px;
+            line-height: 1.7;
+        }
+
+        .details h3 {
+            color: #1d3557;
+            margin-top: 12px;
+        }
+
+
+        /* ================= BOOKING FORM ================= */
+
+        .booking-form {
+            max-width: 600px;
+            margin: auto;
+        }
+
+        .booking-form input,
+        .booking-form select,
+        .booking-form textarea {
+            width: 100%;
+            padding: 12px;
+            margin: 8px 0 15px;
+            border: 1px solid #ccc;
+            border-radius: 6px;
+        }
+
+        .booking-form button {
+            width: 100%;
+            padding: 12px;
+            background-color: #1d3557;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+        #bookingMessage {
+            text-align: center;
+            margin-top: 15px;
+            color: green;
+            font-weight: bold;
+        }
+
+
+        /* ================= PROFILE ================= */
+
+        .profile {
+            max-width: 500px;
+            margin: auto;
+            line-height: 2;
+            font-size: 17px;
+        }
+
+
+        /* ================= CONTACT ================= */
+
+        .contact {
+            text-align: center;
+            line-height: 2;
+        }
+
+
+        /* ================= BACK BUTTON ================= */
+
+        .back-btn {
+            display: block;
+            width: 160px;
+            margin: 30px auto 0;
+            padding: 12px;
+            text-align: center;
+            background-color: #1d3557;
+            color: white;
+            border: none;
+            border-radius: 6px;
+            cursor: pointer;
+        }
+
+    </style>
+</head>
+
+
+<body>
+
+
+<!-- ======================================================
+                     LOGIN PAGE
+====================================================== -->
+
+<section id="loginPage">
+
+    <div class="login-box">
+
+        <h1>Travel Management System</h1>
+
+        <h2>Login</h2>
+
+        <form id="loginForm">
+
+            <input
+                type="text"
+                id="name"
+                placeholder="Enter your name"
+                required
+            >
+
+            <input
+                type="password"
+                id="password"
+                placeholder="Enter your password"
+                required
+            >
+
+            <button
+                type="submit"
+                class="start-btn">
+                START
+            </button>
+
+            <button
+                type="reset"
+                class="reset-btn">
+                RESET
+            </button>
+
+        </form>
+
+        <p id="message"></p>
+
+    </div>
+
+</section>
+
+
+
+<!-- ======================================================
+                     HOME PAGE
+====================================================== -->
+
+<section id="homePage">
+
+    <header>
+
+        <h1>Travel Management System</h1>
+
+        <p>Explore • Plan • Travel • Enjoy</p>
+
+        <button
+            class="logout"
+            onclick="logout()">
+            LOGOUT
+        </button>
+
+    </header>
+
+
+    <div class="welcome">
+
+        <h2>
+            Welcome,
+            <span id="userName"></span>!
+        </h2>
+
+        <p>
+            Welcome to Travel Management System
+        </p>
+
+    </div>
+
+
+
+    <!-- ================= MENU ================= -->
+
+    <div class="menu">
+
+        <div class="card" onclick="showSection('homeSection')">
+
+            <h3>🏠 HOME</h3>
+
+            <p>
+                Travel Management Home
+            </p>
+
+        </div>
+
+
+        <div class="card" onclick="showSection('dataSection')">
+
+            <h3>📊 DATA</h3>
+
+            <p>
+                Travel Information
+            </p>
+
+        </div>
+
+
+        <div class="card" onclick="showSection('placesSection')">
+
+            <h3>📍 PLACES</h3>
+
+            <p>
+                Explore Destinations
+            </p>
+
+        </div>
+
+
+        <div class="card" onclick="showSection('adventureSection')">
+
+            <h3>🏔️ ADVENTURE</h3>
+
+            <p>
+                Adventure Activities
+            </p>
+
+        </div>
+
+
+        <div class="card" onclick="showSection('hotelsSection')">
+
+            <h3>🏨 HOTELS</h3>
+
+            <p>
+                Find Hotels
+            </p>
+
+        </div>
+
+
+        <div class="card" onclick="showSection('bookingSection')">
+
+            <h3>🎫 BOOKINGS</h3>
+
+            <p>
+                Book Your Trip
+            </p>
+
+        </div>
+
+
+        <div class="card" onclick="showSection('profileSection')">
+
+            <h3>👤 PROFILE</h3>
+
+            <p>
+                User Profile
+            </p>
+
+        </div>
+
+
+        <div class="card" onclick="showSection('contactSection')">
+
+            <h3>📞 CONTACT</h3>
+
+            <p>
+                Contact Support
+            </p>
+
+        </div>
+
+    </div>
+
+
+
+    <!-- =================================================
+                         HOME
+    ================================================= -->
+
+    <div id="homeSection" class="content-section">
+
+        <h2>🏠 Welcome to Travel Management System</h2>
+
+        <p style="text-align:center; line-height:1.8;">
+
+            Our Travel Management System helps users
+            explore destinations, find hotels,
+            discover adventure activities and
+            make travel bookings easily.
+
+        </p>
+
+        <button
+            class="back-btn"
+            onclick="hideSections()">
+            Back
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+                         DATA
+    ================================================= -->
+
+    <div id="dataSection" class="content-section">
+
+        <h2>📊 Travel Data</h2>
+
+        <div class="items">
+
+            <div class="item">
+
+                <h3>Destinations</h3>
+
+                <p>
+                    Agra, Manali, Goa and Jaipur.
+                </p>
+
+            </div>
+
+
+            <div class="item">
+
+                <h3>Hotels</h3>
+
+                <p>
+                    Different hotels are available
+                    according to location and budget.
+                </p>
+
+            </div>
+
+
+            <div class="item">
+
+                <h3>Adventure</h3>
+
+                <p>
+                    Trekking, rafting, paragliding,
+                    water sports and camping.
+                </p>
+
+            </div>
+
+        </div>
+
+        <button
+            class="back-btn"
+            onclick="hideSections()">
+            Back
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+                         PLACES
+    ================================================= -->
+
+    <div id="placesSection" class="content-section">
+
+        <h2>📍 Popular Travel Places</h2>
+
+
+        <div class="items">
+
+
+            <!-- AGRA -->
+
+            <div class="item">
+
+                <h3>Agra</h3>
+
+                <p>
+                    Famous for the Taj Mahal
+                    and Mughal architecture.
+                </p>
+
+                <button
+                    class="detail-btn"
+                    onclick="showDetails('agraDetails')">
+                    View Details
+                </button>
+
+
+                <div
+                    id="agraDetails"
+                    class="details">
+
+                    <h3>📍 Places to Visit</h3>
+
+                    <p>
+                        Taj Mahal, Agra Fort,
+                        Mehtab Bagh and
+                        Itmad-ud-Daulah's Tomb.
+                    </p>
+
+                    <h3>🍴 Famous Food</h3>
+
+                    <p>
+                        Petha, Mughlai food,
+                        Bedai and Jalebi.
+                    </p>
+
+                    <h3>🏔️ Adventure</h3>
+
+                    <p>
+                        Heritage walks,
+                        photography tours
+                        and local sightseeing.
+                    </p>
+
+                    <h3>⭐ Special</h3>
+
+                    <p>
+                        Historical monuments
+                        and Mughal architecture.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- MANALI -->
+
+            <div class="item">
+
+                <h3>Manali</h3>
+
+                <p>
+                    Beautiful Himalayan destination
+                    famous for mountains and adventure.
+                </p>
+
+                <button
+                    class="detail-btn"
+                    onclick="showDetails('manaliDetails')">
+                    View Details
+                </button>
+
+
+                <div
+                    id="manaliDetails"
+                    class="details">
+
+                    <h3>📍 Places to Visit</h3>
+
+                    <p>
+                        Solang Valley, Hadimba Temple,
+                        Old Manali, Mall Road
+                        and nearby mountain areas.
+                    </p>
+
+                    <h3>🍴 Famous Food</h3>
+
+                    <p>
+                        Siddu, Momos, Thukpa
+                        and Himachali food.
+                    </p>
+
+                    <h3>🏔️ Adventure</h3>
+
+                    <p>
+                        Trekking, river rafting,
+                        paragliding, skiing in suitable
+                        seasons and camping.
+                    </p>
+
+                    <h3>⭐ Special</h3>
+
+                    <p>
+                        Mountains, valleys,
+                        rivers and beautiful scenery.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- GOA -->
+
+            <div class="item">
+
+                <h3>Goa</h3>
+
+                <p>
+                    Famous for beaches,
+                    tourism and coastal scenery.
+                </p>
+
+                <button
+                    class="detail-btn"
+                    onclick="showDetails('goaDetails')">
+                    View Details
+                </button>
+
+
+                <div
+                    id="goaDetails"
+                    class="details">
+
+                    <h3>📍 Places to Visit</h3>
+
+                    <p>
+                        Baga Beach, Calangute Beach,
+                        Fort Aguada, Panjim
+                        and Dudhsagar Falls.
+                    </p>
+
+                    <h3>🍴 Famous Food</h3>
+
+                    <p>
+                        Goan fish curry, rice,
+                        seafood dishes and Bebinca.
+                    </p>
+
+                    <h3>🏔️ Adventure</h3>
+
+                    <p>
+                        Water sports, kayaking,
+                        scuba diving, parasailing
+                        and boat trips.
+                    </p>
+
+                    <h3>⭐ Special</h3>
+
+                    <p>
+                        Beaches, coastal scenery
+                        and local culture.
+                    </p>
+
+                </div>
+
+            </div>
+
+
+
+            <!-- JAIPUR -->
+
+            <div class="item">
+
+                <h3>Jaipur</h3>
+
+                <p>
+                    Famous for forts, palaces,
+                    culture and history.
+                </p>
+
+                <button
+                    class="detail-btn"
+                    onclick="showDetails('jaipurDetails')">
+                    View Details
+                </button>
+
+
+                <div
+                    id="jaipurDetails"
+                    class="details">
+
+                    <h3>📍 Places to Visit</h3>
+
+                    <p>
+                        Amber Fort, City Palace,
+                        Hawa Mahal, Jantar Mantar
+                        and Nahargarh Fort.
+                    </p>
+
+                    <h3>🍴 Famous Food</h3>
+
+                    <p>
+                        Dal Baati Churma,
+                        Ghewar, Pyaaz Kachori
+                        and Rajasthani food.
+                    </p>
+
+                    <h3>🏔️ Adventure</h3>
+
+                    <p>
+                        Ziplining, cycling tours,
+                        heritage walks
+                        and outdoor activities.
+                    </p>
+
+                    <h3>⭐ Special</h3>
+
+                    <p>
+                        Royal palaces, forts,
+                        colourful markets
+                        and Rajasthani culture.
+                    </p>
+
+                </div>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="hideSections()">
+            Back
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+                       ADVENTURE
+    ================================================= -->
+
+    <div id="adventureSection" class="content-section">
+
+        <h2>🏔️ Adventure Activities</h2>
+
+
+        <div class="items">
+
+
+            <div class="item">
+
+                <h3>🥾 Trekking</h3>
+
+                <p>
+                    Explore mountains and
+                    beautiful natural trails.
+                </p>
+
+                <button
+                    class="detail-btn"
+                    onclick="alert('Trekking is a popular outdoor activity involving walking on natural trails.')">
+                    View Details
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <h3>🚣 River Rafting</h3>
+
+                <p>
+                    Enjoy rafting on suitable
+                    rivers with trained operators.
+                </p>
+
+                <button
+                    class="detail-btn"
+                    onclick="alert('River rafting is an adventure water activity.')">
+                    View Details
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <h3>🪂 Paragliding</h3>
+
+                <p>
+                    Experience a flight over
+                    beautiful landscapes with trained professionals.
+                </p>
+
+                <button
+                    class="detail-btn"
+                    onclick="alert('Paragliding should always be done through trained and authorized operators.')">
+                    View Details
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <h3>⛺ Camping</h3>
+
+                <p>
+                    Spend time outdoors
+                    and enjoy nature.
+                </p>
+
+                <button
+                    class="detail-btn"
+                    onclick="alert('Camping is an outdoor recreational activity.')">
+                    View Details
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="hideSections()">
+            Back
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+                          HOTELS
+    ================================================= -->
+
+    <div id="hotelsSection" class="content-section">
+
+        <h2>🏨 Hotels</h2>
+
+
+        <div class="items">
+
+
+            <div class="item">
+
+                <h3>Hotel Taj View - Agra</h3>
+
+                <p>
+                    Location: Agra
+                </p>
+
+                <p>
+                    Suitable for tourists visiting
+                    historical attractions.
+                </p>
+
+                <button
+                    class="book-btn"
+                    onclick="selectHotel('Hotel Taj View - Agra')">
+                    Select Hotel
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <h3>Mountain Stay - Manali</h3>
+
+                <p>
+                    Location: Manali
+                </p>
+
+                <p>
+                    Suitable for visitors
+                    exploring the Himalayan region.
+                </p>
+
+                <button
+                    class="book-btn"
+                    onclick="selectHotel('Mountain Stay - Manali')">
+                    Select Hotel
+                </button>
+
+            </div>
+
+
+            <div class="item">
+
+                <h3>Beach Stay - Goa</h3>
+
+                <p>
+                    Location: Goa
+                </p>
+
+                <p>
+                    Suitable for visitors
+                    exploring beaches and local attractions.
+                </p>
+
+                <button
+                    class="book-btn"
+                    onclick="selectHotel('Beach Stay - Goa')">
+                    Select Hotel
+                </button>
+
+            </div>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="hideSections()">
+            Back
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+                         BOOKINGS
+    ================================================= -->
+
+    <div id="bookingSection" class="content-section">
+
+        <h2>🎫 Travel Booking</h2>
+
+
+        <div class="booking-form">
+
+            <input
+                type="text"
+                id="passengerName"
+                placeholder="Passenger Name"
+            >
+
+
+            <input
+                type="text"
+                id="mobile"
+                placeholder="Mobile Number"
+            >
+
+
+            <select id="destination">
+
+                <option value="">
+                    Select Destination
+                </option>
+
+                <option value="Agra">
+                    Agra
+                </option>
+
+                <option value="Manali">
+                    Manali
+                </option>
+
+                <option value="Goa">
+                    Goa
+                </option>
+
+                <option value="Jaipur">
+                    Jaipur
+                </option>
+
+            </select>
+
+
+            <input
+                type="date"
+                id="travelDate"
+            >
+
+
+            <input
+                type="number"
+                id="seats"
+                placeholder="Number of Seats"
+                min="1"
+            >
+
+
+            <button
+                onclick="submitBooking()">
+                SUBMIT BOOKING
+            </button>
+
+
+            <p id="bookingMessage"></p>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="hideSections()">
+            Back
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+                          PROFILE
+    ================================================= -->
+
+    <div id="profileSection" class="content-section">
+
+        <h2>👤 User Profile</h2>
+
+
+        <div class="profile">
+
+            <p>
+                <strong>Name:</strong>
+                <span id="profileName"></span>
+            </p>
+
+            <p>
+                <strong>Account Type:</strong>
+                Traveler
+            </p>
+
+            <p>
+                <strong>Status:</strong>
+                Active
+            </p>
+
+            <p>
+                <strong>Project:</strong>
+                Travel Management System
+            </p>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="hideSections()">
+            Back
+        </button>
+
+    </div>
+
+
+
+    <!-- =================================================
+                         CONTACT
+    ================================================= -->
+
+    <div id="contactSection" class="content-section">
+
+        <h2>📞 Contact Us</h2>
+
+
+        <div class="contact">
+
+            <p>
+                <strong>Travel Management System</strong>
+            </p>
+
+            <p>
+                📧 Email:
+                travelmanagement@example.com
+            </p>
+
+            <p>
+                📞 Phone:
+                +91 XXXXX XXXXX
+            </p>
+
+            <p>
+                📍 Location:
+                India
+            </p>
+
+            <p>
+                For travel-related queries,
+                please contact the support team.
+            </p>
+
+        </div>
+
+
+        <button
+            class="back-btn"
+            onclick="hideSections()">
+            Back
+        </button>
+
+    </div>
+
+
+</section>
+
+
+
+<!-- ======================================================
+                    JAVASCRIPT
+====================================================== -->
+
+<script>
+
+
+/*
+==========================================================
+                 JAVASCRIPT KA KAAM
+==========================================================
+
+JavaScript webpage ko interactive banata hai.
+
+Is project mein JavaScript:
+
+1. Login check karta hai.
+2. Home page open karta hai.
+3. Logout karta hai.
+4. HOME, DATA, PLACES, ADVENTURE etc. open karta hai.
+5. Places ki details show karta hai.
+6. Hotel select karta hai.
+7. Booking form ka data leta hai.
+8. Profile mein username show karta hai.
+*/
+
+
+/* ================= LOGIN ================= */
+
+document.getElementById("loginForm")
+.addEventListener("submit", function(event) {
+
+    event.preventDefault();
+
+    let name =
+        document.getElementById("name").value.trim();
+
+    let password =
+        document.getElementById("password").value;
+
+
+    /*
+       DEMO LOGIN
+
+       Name: Mansi
+       Password: 1234
+    */
+
+    if (name === "Mansi" && password === "1234") {
+
+        document.getElementById("userName")
+            .innerText = name;
+
+        document.getElementById("profileName")
+            .innerText = name;
+
+        document.getElementById("loginPage")
+            .style.display = "none";
+
+        document.getElementById("homePage")
+            .style.display = "block";
+
+        document.getElementById("message")
+            .innerText = "";
+
+    }
+
+    else {
+
+        document.getElementById("message")
+            .innerText =
+            "Invalid Name or Password!";
+
+    }
+
+});
+
+
+
+/* ================= LOGOUT ================= */
+
+function logout() {
+
+    document.getElementById("homePage")
+        .style.display = "none";
+
+    document.getElementById("loginPage")
+        .style.display = "flex";
+
+    document.getElementById("loginForm")
+        .reset();
+
+    document.getElementById("message")
+        .innerText = "";
+
+    hideSections();
+
+}
+
+
+
+/* ================= SHOW SECTION ================= */
+
+function showSection(sectionId) {
+
+    hideSections();
+
+    document.getElementById(sectionId)
+        .style.display = "block";
+
+}
+
+
+
+/* ================= HIDE SECTIONS ================= */
+
+function hideSections() {
+
+    let sections =
+        document.querySelectorAll(".content-section");
+
+    sections.forEach(function(section) {
+
+        section.style.display = "none";
+
+    });
+
+}
+
+
+
+/* ================= PLACE DETAILS ================= */
+
+function showDetails(detailId) {
+
+    let details =
+        document.getElementById(detailId);
+
+    if (details.style.display === "block") {
+
+        details.style.display = "none";
+
+    }
+
+    else {
+
+        details.style.display = "block";
+
+    }
+
+}
+
+
+
+/* ================= HOTEL ================= */
+
+function selectHotel(hotelName) {
+
+    alert(
+        "You selected: " +
+        hotelName +
+        "\nPlease go to BOOKINGS to complete your booking."
+    );
+
+}
+
+
+
+/* ================= BOOKING ================= */
+
+function submitBooking() {
+
+    let name =
+        document.getElementById("passengerName")
+        .value;
+
+    let mobile =
+        document.getElementById("mobile")
+        .value;
+
+    let destination =
+        document.getElementById("destination")
+        .value;
+
+    let date =
+        document.getElementById("travelDate")
+        .value;
+
+    let seats =
+        document.getElementById("seats")
+        .value;
+
+
+    if (
+        name === "" ||
+        mobile === "" ||
+        destination === "" ||
+        date === "" ||
+        seats === ""
+    ) {
+
+        document.getElementById("bookingMessage")
+            .style.color = "red";
+
+        document.getElementById("bookingMessage")
+            .innerText =
+            "Please fill all booking details.";
+
+        return;
+
+    }
+
+
+    document.getElementById("bookingMessage")
+        .style.color = "green";
+
+    document.getElementById("bookingMessage")
+        .innerText =
+        "Booking submitted successfully! " +
+        "Destination: " + destination +
+        ", Seats: " + seats;
+
+}
+
+</script>
+
+</body>
+
+</html>
